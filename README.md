@@ -24,6 +24,7 @@ or etc.
 ./watchb-rsync yourhost.net some/where/from/home
 ./watchb-rsync yourhost.net some/where/from/home username
 ```
+`watchb-rsync`'s 2nd argument *dst-path* is defaultly the same to local current directory path. (e.g. `cd ~/some/where && watchb-rsync yourhost.net` is same to `cd ~/some/where && watchb-rsync yourhost.net some/where`.)
 
 ## References
 
