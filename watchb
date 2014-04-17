@@ -12,7 +12,7 @@ then
 fi
 if [ $# -ne 1 ]
 then
-  echo 'only 1 argument (command-string) is needed.' 1>&2
+  echo 'Only 1 argument (command-string) is required.' 1>&2
   exit 1
 fi
 COMMAND=$1
