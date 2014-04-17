@@ -15,16 +15,30 @@ Run
 `sudo yum install inotify-tools`
 or etc.
 
+`rsync` command in `watchb-rsync` requires SSH connection with a remote machine,
+so SSH public key should be registered in it.
+
 ## Usage
 
 ```bash
 ./watchb 'ls && date'
+```
 
+```bash
 ./watchb-rsync yourhost.net
 ./watchb-rsync yourhost.net some/where/from/home
 ./watchb-rsync yourhost.net some/where/from/home username
 ```
+
 `watchb-rsync`'s 2nd argument *dst-path* is defaultly the same to local current directory path. (e.g. `cd ~/some/where && watchb-rsync yourhost.net` is same to `cd ~/some/where && watchb-rsync yourhost.net some/where`.)
+
+3 (or 2) arguments are used for `rsync` as;
+
+```bash
+rsync -avz -e ssh --delete ./ ${3}@${1}:${2}
+# or
+rsync -avz -e ssh --delete ./ ${1}:${2}
+```
 
 ## References
 
