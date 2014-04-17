@@ -3,7 +3,7 @@
 Watch current directory's filesystem events **create**, **delete**, **modify**
 and **move**.
 
-On emitting their events, execute specified commands or syncronize current
+On emitting those events, execute specified commands or syncronize current
 directory with another remote machine by `rsync` command.
 
 ## Prerequisites
