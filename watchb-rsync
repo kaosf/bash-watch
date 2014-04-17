@@ -1,0 +1,42 @@
+#!/bin/bash
+
+type inotifywait > /dev/null
+if [ $? -ne 0 ]
+then
+  echo '"inotifywait" command is required.' 1>&2
+  echo 'Run' 1>&2
+  echo '  apt-get install inotify-tools' 1>&2
+  echo 'or' 1>&2
+  echo '  yum install inotify-tools' 1>&2
+  exit 2
+fi
+if [ $# -lt 1 ]
+then
+  echo 'At least 1 argument (host [dst-path [user]]) is required.' 1>&2
+  exit 1
+fi
+HOST=$1
+DST=$2
+if [ -z "$DST" ]
+then
+  DST=$(pwd | cut -b $((${#HOME} + 2))-)
+fi
+USER=$3
+if [ -n "$USER" ]
+then
+  USER=${USER}@
+fi
+
+inotifywait -e create,delete,modify,move -mrq ./ | while :
+do
+  messages=''
+  while read -t 1 line
+  do
+    messages="${messages}${line} "
+  done
+  if [ -n "${messages}" ]
+  then
+    rsync -avz -e ssh --delete ./ ${USER}${HOST}:${DST}
+    date
+  fi
+done

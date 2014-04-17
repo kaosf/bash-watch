@@ -1,0 +1,31 @@
+#!/bin/bash
+
+type inotifywait > /dev/null
+if [ $? -ne 0 ]
+then
+  echo '"inotifywait" command is required.' 1>&2
+  echo 'Run' 1>&2
+  echo '  apt-get install inotify-tools' 1>&2
+  echo 'or' 1>&2
+  echo '  yum install inotify-tools' 1>&2
+  exit 2
+fi
+if [ $# -ne 1 ]
+then
+  echo 'only 1 argument (command-string) is needed.' 1>&2
+  exit 1
+fi
+COMMAND=$1
+
+inotifywait -e create,delete,modify,move -mrq ./ | while :
+do
+  messages=''
+  while read -t 1 line
+  do
+    messages="${messages}${line} "
+  done
+  if [ -n "${messages}" ]
+  then
+    eval $COMMAND
+  fi
+done
