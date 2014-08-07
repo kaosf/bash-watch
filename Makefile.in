@@ -1,0 +1,15 @@
+PREFIX=
+
+PROGRAMS=watchb watchb-rsync
+
+all:
+
+install:
+	mkdir -p $(PREFIX)/bin
+	cp $(PROGRAMS) $(PREFIX)/bin
+
+uninstall:
+	cd $(PREFIX)/bin
+	rm $(PROGRAMS) $(PREFIX)/bin
+
+clean:
