@@ -17,7 +17,7 @@ then
 fi
 COMMAND=$1
 
-inotifywait -e create,delete,modify,move -mrq ./ | while :
+inotifywait -e create,delete,modify,move -mrq ./ --exclude '.*\.sw[pox].*' | while :
 do
   messages=''
   while read -t 1 line
