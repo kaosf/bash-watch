@@ -47,6 +47,7 @@ rsync -avz -e ssh --delete ./ ${1}:${2}
 * http://stackoverflow.com/questions/2972765/linux-script-that-monitors-file-changes-within-folders-like-autospec-does
 * https://github.com/rvoicilas/inotify-tools/wiki
 * http://www.usupi.org/sysad/157.html
+* http://labs.crooz.co.jp/archives/62
 
 ## License
 
