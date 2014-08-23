@@ -27,7 +27,7 @@ then
   USER=${USER}@
 fi
 
-inotifywait -e create,delete,modify,move -mrq ./ --exclude '.*\.sw[pox].*' | while :
+inotifywait -e create,delete,modify,move -mrq ./ | while :
 do
   messages=''
   while read -t 1 line
