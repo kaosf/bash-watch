@@ -37,6 +37,6 @@ do
   if [ -n "${messages}" ]
   then
     rsync -avz -e ssh --delete ./ ${USER}${HOST}:${DST}
-    date
+    LANG=c date
   fi
 done
