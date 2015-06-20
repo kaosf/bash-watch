@@ -24,6 +24,19 @@ so SSH public key should be registered in it.
 ./watchb 'ls && date'
 ```
 
+You can specify excluding file regexp.
+
+```bash`
+./watchb make 'a\.out'
+```
+
+`make` command runs on modifying current directory, but all `a.out`
+modifications are ignored.
+
+You can escape from the infinite loop like following;
+
+`a.out` is modified -> `make` runs -> `a.out` is modified -> `make` runs -> ...
+
 ```bash
 ./watchb-rsync yourhost.net
 ./watchb-rsync yourhost.net some/where/from/home
