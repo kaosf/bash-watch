@@ -59,7 +59,6 @@ else
     done
     if [ -n "${messages}" ]
     then
-      echo "DONE! `date`"
       eval $COMMAND
     fi
   done
