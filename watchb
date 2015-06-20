@@ -1,31 +1,66 @@
 #!/bin/bash
 
-type inotifywait > /dev/null
+type inotifywait > /dev/null 2>&1
 if [ $? -ne 0 ]
 then
-  echo '"inotifywait" command is required.' 1>&2
-  echo 'Run' 1>&2
-  echo '  sudo apt-get install inotify-tools' 1>&2
-  echo 'or' 1>&2
-  echo '  sudo yum install inotify-tools' 1>&2
+  cat <<EOS >&2
+"inotifywait" command is required.
+
+Run
+  sudo apt-get install inotify-tools
+or
+  sudo yum install inotify-tools
+EOS
   exit 2
 fi
-if [ $# -ne 1 ]
+if [ $# -lt 1 ]
 then
-  echo 'Only 1 argument (command-string) is required.' 1>&2
+  cat <<EOS >&2
+Usage:
+
+  watchb COMMAND [EXCLUDE]
+
+Examples:
+
+  watchb "date; ls"
+
+  watchb make ".*\\.o"
+
+  watchb rake 'log\/test\\.log'
+EOS
   exit 1
 fi
 COMMAND=$1
 
-inotifywait -e create,delete,modify,move -mrq ./ | while :
-do
-  messages=''
-  while read -t 1 line
+if [ $# -lt 2 ]
+then
+  # no EXCLUDE
+  inotifywait -e create,delete,modify,move -mrq ./ | while :
   do
-    messages="${messages}${line} "
+    messages=''
+    while read -t 1 line
+    do
+      messages="${messages}${line} "
+    done
+    if [ -n "${messages}" ]
+    then
+      echo "DONE! `date`"
+      eval $COMMAND
+    fi
   done
-  if [ -n "${messages}" ]
-  then
-    eval $COMMAND
-  fi
-done
+else
+  # EXCLUDE is specified
+  inotifywait -e create,delete,modify,move -mrq ./ --exclude $2 | while :
+  do
+    messages=''
+    while read -t 1 line
+    do
+      messages="${messages}${line} "
+    done
+    if [ -n "${messages}" ]
+    then
+      echo "DONE! `date`"
+      eval $COMMAND
+    fi
+  done
+fi
