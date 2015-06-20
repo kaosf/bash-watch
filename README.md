@@ -27,15 +27,16 @@ so SSH public key should be registered in it.
 You can specify excluding file regexp.
 
 ```bash`
-./watchb make 'a\.out'
+./watchb rake 'log\/.*\.log'
 ```
 
-`make` command runs on modifying current directory, but all `a.out`
+`rake` command runs on modifying current directory, but all `log/*.log`
 modifications are ignored.
 
 You can escape from the infinite loop like following;
 
-`a.out` is modified -> `make` runs -> `a.out` is modified -> `make` runs -> ...
+Run `rake` -> `log/test.log` is modified ->
+Run `rake` -> `log/test.log` is modified -> ...
 
 ```bash
 ./watchb-rsync yourhost.net
